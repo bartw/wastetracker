@@ -1,0 +1,38 @@
+{
+  "name": "wastetracker",
+  "version": "0.0.1",
+  "description": "A web application to track waste.",
+  "main": "index.js",
+  "scripts": {
+    "start": "webpack-dev-server --progress -d --colors --content-base ./public",
+    "build": "webpack --config webpack.config.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/bartw/wastetracker.git"
+  },
+  "keywords": [
+    "waste",
+    "tracker",
+    "wastetracker"
+  ],
+  "author": "Bart Wijnants",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/bartw/wastetracker/issues"
+  },
+  "homepage": "https://github.com/bartw/wastetracker#readme",
+  "devDependencies": {
+    "babel-core": "^6.25.0",
+    "babel-loader": "^7.1.1",
+    "babel-preset-es2015": "^6.24.1",
+    "babel-preset-react": "^6.24.1",
+    "webpack": "^3.0.0",
+    "webpack-dev-server": "^2.5.0"
+  },
+  "dependencies": {
+    "firebase": "^4.1.3",
+    "react": "^15.6.1",
+    "react-dom": "^15.6.1"
+  }
+}
