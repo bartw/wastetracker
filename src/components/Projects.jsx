@@ -1,5 +1,6 @@
 import React from "react";
 import { render } from "react-dom";
+import ProjectRow from "./ProjectRow";
 import Project from "./Project";
 import ProjectService from "../services/ProjectService";
 
@@ -25,16 +26,23 @@ export default class Projects extends React.Component {
       this.setState({ newProjectName: "" });
     };
 
+    this.setSelected = project => {
+      this.setState({ selectedProject: project });
+    };
+
     this.delete = id => {
       projectService.deleteProject(id);
     };
   }
 
   render() {
-    const projects = this.state.projects.map(project =>
-      <Project
+    const projectRows = this.state.projects.map(project =>
+      <ProjectRow
         key={project.id}
         name={project.name}
+        setSelected={() => {
+          this.setSelected(project);
+        }}
         onDelete={() => {
           this.delete(project.id);
         }}
@@ -42,19 +50,24 @@ export default class Projects extends React.Component {
     );
     return (
       <div>
-        <table>
-          <tbody>
-            {projects}
-          </tbody>
-        </table>
-        <input
-          type="text"
-          value={this.state.newProjectName}
-          onChange={this.onChangeProjectName}
-        />
-        <button onClick={this.add} disabled={!this.state.newProjectName}>
-          Add project
-        </button>
+        <div>
+          <table>
+            <tbody>
+              {projectRows}
+            </tbody>
+          </table>
+          <input
+            type="text"
+            value={this.state.newProjectName}
+            onChange={this.onChangeProjectName}
+          />
+          <button onClick={this.add} disabled={!this.state.newProjectName}>
+            Add project
+          </button>
+        </div>
+        {this.state.selectedProject &&
+          <Project project={this.state.selectedProject} />}
+        <div />
       </div>
     );
   }
