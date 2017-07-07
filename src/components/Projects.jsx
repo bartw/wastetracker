@@ -23,6 +23,10 @@ export default class Projects extends React.Component {
       projectService.addProject(this.state.newProjectName);
       this.setState({ newProjectName: "" });
     };
+
+    this.delete = id => {
+      projectService.deleteProject(id);
+    };
   }
 
   render() {
@@ -34,14 +38,22 @@ export default class Projects extends React.Component {
           </a>
         </td>
         <td>
-          <a>delete</a>
+          <a
+            onClick={() => {
+              this.delete(project.id);
+            }}
+          >
+            delete
+          </a>
         </td>
       </tr>
     );
     return (
       <div>
         <table>
-          {projectItems}
+          <tbody>
+            {projectItems}
+          </tbody>
         </table>
         <input
           type="text"

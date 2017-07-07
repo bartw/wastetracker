@@ -5,9 +5,24 @@ export default class ProjectService {
     let projects = [];
     const dbContext = firebase.database().ref("projects");
 
+    const callOnChanged = () => {
+      onChanged(
+        projects.map(project => {
+          return { id: project.id, name: project.name };
+        })
+      );
+    };
+
     dbContext.on("child_added", data => {
-      projects = projects.concat([{ id: data.key, name: data.val().name }]);
-      onChanged(projects);
+      projects = projects.concat([
+        { id: data.key, name: data.val().name, ref: data.ref }
+      ]);
+      callOnChanged();
+    });
+
+    dbContext.on("child_removed", data => {
+      projects = projects.filter(project => project.id !== data.key);
+      callOnChanged();
     });
 
     this.addProject = name => {
@@ -18,6 +33,13 @@ export default class ProjectService {
       newProject.set({
         name: name
       });
+    };
+
+    this.deleteProject = id => {
+      const projectToDelete = projects.find(project => project.id === id);
+      if (projectToDelete) {
+        projectToDelete.ref.remove();
+      }
     };
   }
 }
