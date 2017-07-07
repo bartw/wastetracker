@@ -1,5 +1,6 @@
 import React from "react";
 import { render } from "react-dom";
+import Project from "./Project";
 import ProjectService from "../services/ProjectService";
 
 export default class Projects extends React.Component {
@@ -30,29 +31,20 @@ export default class Projects extends React.Component {
   }
 
   render() {
-    const projectItems = this.state.projects.map(project =>
-      <tr key={project.id}>
-        <td>
-          <a>
-            {project.name}
-          </a>
-        </td>
-        <td>
-          <a
-            onClick={() => {
-              this.delete(project.id);
-            }}
-          >
-            delete
-          </a>
-        </td>
-      </tr>
+    const projects = this.state.projects.map(project =>
+      <Project
+        key={project.id}
+        name={project.name}
+        onDelete={() => {
+          this.delete(project.id);
+        }}
+      />
     );
     return (
       <div>
         <table>
           <tbody>
-            {projectItems}
+            {projects}
           </tbody>
         </table>
         <input
