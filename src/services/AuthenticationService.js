@@ -2,20 +2,11 @@ import * as firebase from "firebase";
 
 export default class AuthenticationService {
   constructor() {
-    const config = {
-      apiKey: "AIzaSyBFst0KH4hxxdiU7ADQd09NMW_7oPh9RTI",
-      authDomain: "wastetracker-5daf7.firebaseapp.com",
-      databaseURL: "https://wastetracker-5daf7.firebaseio.com",
-      projectId: "wastetracker-5daf7",
-      storageBucket: "wastetracker-5daf7.appspot.com",
-      messagingSenderId: "39773773466"
-    };
-    const app = firebase.initializeApp(config);
     const provider = new firebase.auth.GoogleAuthProvider();
 
     let token = localStorage.getItem("token");
-    let user = localStorage.getItem("user");
-
+    let user = JSON.parse(localStorage.getItem("user"));
+    
     this.login = () => {
       return firebase
         .auth()
@@ -47,5 +38,6 @@ export default class AuthenticationService {
     };
 
     this.isAuthenticated = () => token !== null;
+    this.getUserName = () => user.displayName;
   }
 }

@@ -1,21 +1,23 @@
 import * as firebase from "firebase";
+import AuthenticationService from "../services/AuthenticationService";
 
 export default class WasteItemService {
   constructor(projectId, onChanged) {
     let wasteItems = [];
     const dbContext = firebase.database().ref(projectId);
+    const userName = new AuthenticationService().getUserName();
 
     const callOnChanged = () => {
       onChanged(
         wasteItems.map(wasteItem => {
-          return { id: wasteItem.id, name: wasteItem.name };
+          return { id: wasteItem.id, userName: wasteItem.userName, description: wasteItem.description, duration: wasteItem.duration };
         })
       );
     };
 
     dbContext.on("child_added", data => {
       wasteItems = wasteItems.concat([
-        { id: data.key, name: data.val().name, ref: data.ref }
+        { id: data.key, userName: data.val().userName, description: data.val().description, duration: data.val().duration, ref: data.ref }
       ]);
       callOnChanged();
     });
@@ -25,13 +27,14 @@ export default class WasteItemService {
       callOnChanged();
     });
 
-    this.addWasteItem = name => {
-      if (!name) {
+    this.addWasteItem = (description, duration) => {
+      if (!description || !duration) {
         return;
       }
-      const newWasteItem = dbContext.push();
-      newWasteItem.set({
-        name: name
+      const newWasteItem = dbContext.push({
+        userName: userName,
+        description: description,
+        duration: duration
       });
     };
 

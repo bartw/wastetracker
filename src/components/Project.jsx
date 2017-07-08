@@ -9,7 +9,8 @@ export default class Project extends React.Component {
 
     this.state = {
       wasteItems: [],
-      newWasteItemName: ""
+      newDescription: '',
+      newDuration: ''
     };
 
     this.wasteItemService = new WasteItemService(
@@ -19,13 +20,17 @@ export default class Project extends React.Component {
       }
     );
 
-    this.onChangeWasteItemName = e => {
-      this.setState({ newWasteItemName: e.target.value });
+    this.onChangeDescription = e => {
+      this.setState({ newDescription: e.target.value });
+    };
+
+    this.onChangeDuration = e => {
+      this.setState({ newDuration: e.target.value });
     };
 
     this.add = () => {
-      this.wasteItemService.addWasteItem(this.state.newWasteItemName);
-      this.setState({ newWasteItemName: "" });
+      this.wasteItemService.addWasteItem(this.state.newDescription, this.state.newDuration);
+      this.setState({ newDescription: '', newDuration: '' });
     };
 
     this.delete = id => {
@@ -48,7 +53,9 @@ export default class Project extends React.Component {
     const wasteItemRows = this.state.wasteItems.map(wasteItem =>
       <WasteItemRow
         key={wasteItem.id}
-        name={wasteItem.name}
+        userName={wasteItem.userName}
+        description={wasteItem.description}
+        duration={wasteItem.duration}
         onDelete={() => {
           this.delete(wasteItem.id);
         }}
@@ -63,10 +70,17 @@ export default class Project extends React.Component {
         </table>
         <input
           type="text"
-          value={this.state.newWasteItemName}
-          onChange={this.onChangeWasteItemName}
+          value={this.state.newDescription}
+          onChange={this.onChangeDescription}
+          placeholder="description"
         />
-        <button onClick={this.add} disabled={!this.state.newWasteItemName}>
+        <input
+          type="number"
+          value={this.state.newDuration}
+          onChange={this.onChangeDuration}
+          placeholder="duration"
+        />
+        <button onClick={this.add} disabled={!this.state.newDescription || !this.state.newDuration}>
           Add waste item
         </button>
       </div>
