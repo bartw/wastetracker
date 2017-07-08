@@ -14,7 +14,7 @@ export default class Project extends React.Component {
     };
 
     this.wasteItemService = new WasteItemService(
-      props.project.id,
+      this.props.project.id,
       wasteItems => {
         this.setState({ wasteItems: wasteItems });
       }
@@ -63,7 +63,16 @@ export default class Project extends React.Component {
     );
     return (
       <div>
+        <h3>{this.props.project.name}</h3>
         <table>
+          <thead>
+              <tr>
+                <th>User name</th>
+                <th>Description</th>
+                <th>Duration</th>
+                <th />
+              </tr>
+            </thead>
           <tbody>
             {wasteItemRows}
           </tbody>

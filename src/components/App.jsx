@@ -32,7 +32,7 @@ export default class App extends React.Component {
 
   render() {
     return (
-      <div>
+      <div id="container">
         <h1>Wastetracker</h1>
         <Authentication
           isAuthenticated={this.state.isAuthenticated}

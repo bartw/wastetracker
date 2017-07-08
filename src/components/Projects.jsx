@@ -50,8 +50,15 @@ export default class Projects extends React.Component {
     );
     return (
       <div>
+        <h3>Projects</h3>
         <div>
           <table>
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th />
+              </tr>
+            </thead>
             <tbody>
               {projectRows}
             </tbody>
@@ -60,6 +67,7 @@ export default class Projects extends React.Component {
             type="text"
             value={this.state.newProjectName}
             onChange={this.onChangeProjectName}
+            placeholder="name"
           />
           <button onClick={this.add} disabled={!this.state.newProjectName}>
             Add project

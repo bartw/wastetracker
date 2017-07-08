@@ -3,6 +3,9 @@ import { render } from "react-dom";
 import App from "./components/App";
 import * as firebase from "firebase";
 
+import 'reset-css/reset.css';
+import './css/style.css';
+
 const config = {
   apiKey: "AIzaSyBFst0KH4hxxdiU7ADQd09NMW_7oPh9RTI",
   authDomain: "wastetracker-5daf7.firebaseapp.com",
