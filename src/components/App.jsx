@@ -10,19 +10,21 @@ export default class App extends React.Component {
 
     const authenticationService = new AuthenticationService();
 
-    this.state = { isAuthenticated: authenticationService.isAuthenticated() };
+    this.state = { isAuthenticated: authenticationService.isAuthenticated(), userName: authenticationService.getUserName() };
 
     this.login = () => {
       authenticationService.login().then(() =>
         this.setState({
-          isAuthenticated: authenticationService.isAuthenticated()
+          isAuthenticated: authenticationService.isAuthenticated(),
+          userName: authenticationService.getUserName()
         })
       );
     };
     this.logout = () => {
       authenticationService.logout().then(() =>
         this.setState({
-          isAuthenticated: authenticationService.isAuthenticated()
+          isAuthenticated: authenticationService.isAuthenticated(),
+          userName: authenticationService.getUserName()
         })
       );
     };
@@ -31,8 +33,10 @@ export default class App extends React.Component {
   render() {
     return (
       <div>
+        <h1>Wastetracker</h1>
         <Authentication
-          authenticated={this.state.isAuthenticated}
+          isAuthenticated={this.state.isAuthenticated}
+          userName={this.state.userName}
           login={this.login}
           logout={this.logout}
         />

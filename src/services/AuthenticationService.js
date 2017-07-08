@@ -38,6 +38,6 @@ export default class AuthenticationService {
     };
 
     this.isAuthenticated = () => token !== null;
-    this.getUserName = () => user.displayName;
+    this.getUserName = () => user ? user.displayName : 'guest';
   }
 }
