@@ -17,7 +17,7 @@ export default class WasteItemService {
 
     dbContext.on("child_added", data => {
       wasteItems = wasteItems.concat([
-        { id: data.key, userName: data.val().userName, description: data.val().description, duration: data.val().duration, ref: data.ref }
+        { id: data.key, userName: data.val().userName, description: data.val().description, duration: parseFloat(data.val().duration), ref: data.ref }
       ]);
       callOnChanged();
     });
@@ -34,7 +34,7 @@ export default class WasteItemService {
       const newWasteItem = dbContext.push({
         userName: userName,
         description: description,
-        duration: duration
+        duration: parseFloat(duration).toFixed(1)
       });
     };
 

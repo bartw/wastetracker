@@ -6,7 +6,7 @@ export default function WasteItemRow({ userName, description, duration, onDelete
     <tr>
       <td>{userName}</td>
       <td>{description}</td>
-      <td>{duration}</td>
+      <td style={{textAlign: 'right'}}>{duration.toFixed(1)}</td>
       <td>
         <a onClick={onDelete}>delete</a>
       </td>

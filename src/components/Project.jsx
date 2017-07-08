@@ -36,6 +36,8 @@ export default class Project extends React.Component {
     this.delete = id => {
       this.wasteItemService.deleteWasteItem(id);
     };
+
+    this.total = () => this.state.wasteItems.reduce((sum, wasteItem) => sum + wasteItem.duration, 0).toFixed(1);
   }
 
   componentWillReceiveProps(nextProps) {
@@ -75,6 +77,12 @@ export default class Project extends React.Component {
             </thead>
           <tbody>
             {wasteItemRows}
+            <tr>
+              <td />
+              <td />
+              <td style={{fontWeight: 'bold', textAlign: 'right'}}>{this.total()}</td>
+              <td />
+            </tr>
           </tbody>
         </table>
         <input
