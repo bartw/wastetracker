@@ -4,7 +4,7 @@ import AuthenticationService from "../services/AuthenticationService";
 export default class WasteItemService {
   constructor(projectId, onChanged) {
     let wasteItems = [];
-    const dbContext = firebase.database().ref(projectId);
+    const dbContext = firebase.database().ref('wasteitems/' + projectId);
     const userName = new AuthenticationService().getUserName();
 
     const callOnChanged = () => {
