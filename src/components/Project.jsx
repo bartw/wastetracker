@@ -13,8 +13,7 @@ export default class Project extends React.Component {
       wasteItems: [],
       newType: "",
       newDescription: "",
-      newDuration: "",
-      chartProperty: "type"
+      newDuration: ""
     };
 
     this.wasteItemService = new WasteItemService(
@@ -34,10 +33,6 @@ export default class Project extends React.Component {
 
     this.onChangeDuration = e => {
       this.setState({ newDuration: e.target.value });
-    };
-
-    this.onChangeChartProperty = e => {
-      this.setState({ chartProperty: e.target.value });
     };
 
     this.add = () => {
@@ -137,27 +132,7 @@ export default class Project extends React.Component {
           Add waste item
         </button>
         <div>
-          <fieldset>
-            <label>
-              <input
-                name="chartProperty"
-                type="radio"
-                value="userName"
-                checked={this.state.chartProperty === "userName"}
-                onChange={this.onChangeChartProperty}
-              />user name
-            </label>
-            <label>
-              <input
-                name="chartProperty"
-                type="radio"
-                value="type"
-                checked={this.state.chartProperty === "type"}
-                onChange={this.onChangeChartProperty}
-              />type
-            </label>
-          </fieldset>
-          <WasteChart items={this.state.wasteItems} propertyToGroupBy={this.state.chartProperty} />
+          <WasteChart items={this.state.wasteItems} />
         </div>
       </div>
     );
