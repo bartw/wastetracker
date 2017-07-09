@@ -11,7 +11,7 @@ export default class Project extends React.Component {
 
     this.state = {
       wasteItems: [],
-      newType: "",
+      newType: this.types[0],
       newDescription: "",
       newDuration: ""
     };

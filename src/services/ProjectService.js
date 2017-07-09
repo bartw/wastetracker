@@ -38,6 +38,7 @@ export default class ProjectService {
     this.deleteProject = id => {
       const projectToDelete = projects.find(project => project.id === id);
       if (projectToDelete) {
+        firebase.database().ref('wasteitems/' + id).remove();
         projectToDelete.ref.remove();
       }
     };

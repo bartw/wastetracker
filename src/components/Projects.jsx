@@ -31,6 +31,7 @@ export default class Projects extends React.Component {
 
     this.delete = id => {
       projectService.deleteProject(id);
+      this.setState({ selectedProject: null });
     };
   }
 
