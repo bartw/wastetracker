@@ -143,7 +143,7 @@ export default class Project extends React.Component {
                 name="chartProperty"
                 type="radio"
                 value="userName"
-                checked={this.state.chartProperty === "username"}
+                checked={this.state.chartProperty === "userName"}
                 onChange={this.onChangeChartProperty}
               />user name
             </label>
