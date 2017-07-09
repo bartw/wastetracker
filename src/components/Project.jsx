@@ -1,16 +1,20 @@
-import React from 'react';
-import WasteItemRow from './WasteItemRow';
-import WasteChart from './WasteChart';
-import WasteItemService from '../services/WasteItemService';
+import React from "react";
+import WasteItemRow from "./WasteItemRow";
+import WasteChart from "./WasteChart";
+import WasteItemService from "../services/WasteItemService";
 
 export default class Project extends React.Component {
   constructor(props) {
     super(props);
 
+    this.types = ["work", "meeting"];
+
     this.state = {
       wasteItems: [],
-      newDescription: '',
-      newDuration: ''
+      newType: "",
+      newDescription: "",
+      newDuration: "",
+      chartProperty: "type"
     };
 
     this.wasteItemService = new WasteItemService(
@@ -20,6 +24,10 @@ export default class Project extends React.Component {
       }
     );
 
+    this.onChangeType = e => {
+      this.setState({ newType: e.target.value });
+    };
+
     this.onChangeDescription = e => {
       this.setState({ newDescription: e.target.value });
     };
@@ -28,16 +36,27 @@ export default class Project extends React.Component {
       this.setState({ newDuration: e.target.value });
     };
 
+    this.onChangeChartProperty = e => {
+      this.setState({ chartProperty: e.target.value });
+    };
+
     this.add = () => {
-      this.wasteItemService.addWasteItem(this.state.newDescription, this.state.newDuration);
-      this.setState({ newDescription: '', newDuration: '' });
+      this.wasteItemService.addWasteItem(
+        this.state.newType,
+        this.state.newDescription,
+        this.state.newDuration
+      );
+      this.setState({ newDescription: "", newDuration: "" });
     };
 
     this.delete = id => {
       this.wasteItemService.deleteWasteItem(id);
     };
 
-    this.total = () => this.state.wasteItems.reduce((sum, wasteItem) => sum + wasteItem.duration, 0).toFixed(1);
+    this.total = () =>
+      this.state.wasteItems
+        .reduce((sum, wasteItem) => sum + wasteItem.duration, 0)
+        .toFixed(1);
   }
 
   componentWillReceiveProps(nextProps) {
@@ -55,36 +74,50 @@ export default class Project extends React.Component {
     const wasteItemRows = this.state.wasteItems.map(wasteItem =>
       <WasteItemRow
         key={wasteItem.id}
-        userName={wasteItem.userName}
-        description={wasteItem.description}
-        duration={wasteItem.duration}
+        wasteItem={wasteItem}
         onDelete={() => {
           this.delete(wasteItem.id);
         }}
       />
     );
+
+    const typeOptions = this.types.map(type =>
+      <option key={type} value={type}>
+        {type}
+      </option>
+    );
+
     return (
       <div>
-        <h3>{this.props.project.name}</h3>
+        <h3>
+          {this.props.project.name}
+        </h3>
         <table>
           <thead>
-              <tr>
-                <th>User name</th>
-                <th>Description</th>
-                <th>Duration</th>
-                <th />
-              </tr>
-            </thead>
+            <tr>
+              <th>User name</th>
+              <th>Type</th>
+              <th>Description</th>
+              <th>Duration</th>
+              <th />
+            </tr>
+          </thead>
           <tbody>
             {wasteItemRows}
             <tr>
               <td />
               <td />
-              <td style={{fontWeight: 'bold', textAlign: 'right'}}>{this.total()}</td>
+              <td />
+              <td style={{ fontWeight: "bold", textAlign: "right" }}>
+                {this.total()}
+              </td>
               <td />
             </tr>
           </tbody>
         </table>
+        <select value={this.state.newType} onChange={this.onChangeType}>
+          {typeOptions}
+        </select>
         <input
           type="text"
           value={this.state.newDescription}
@@ -97,10 +130,35 @@ export default class Project extends React.Component {
           onChange={this.onChangeDuration}
           placeholder="duration"
         />
-        <button onClick={this.add} disabled={!this.state.newDescription || !this.state.newDuration}>
+        <button
+          onClick={this.add}
+          disabled={!this.state.newDescription || !this.state.newDuration}
+        >
           Add waste item
         </button>
-        <WasteChart items={this.state.wasteItems} />
+        <div>
+          <fieldset>
+            <label>
+              <input
+                name="chartProperty"
+                type="radio"
+                value="userName"
+                checked={this.state.chartProperty === "username"}
+                onChange={this.onChangeChartProperty}
+              />user name
+            </label>
+            <label>
+              <input
+                name="chartProperty"
+                type="radio"
+                value="type"
+                checked={this.state.chartProperty === "type"}
+                onChange={this.onChangeChartProperty}
+              />type
+            </label>
+          </fieldset>
+          <WasteChart items={this.state.wasteItems} propertyToGroupBy={this.state.chartProperty} />
+        </div>
       </div>
     );
   }

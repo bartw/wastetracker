@@ -10,14 +10,14 @@ export default class WasteItemService {
     const callOnChanged = () => {
       onChanged(
         wasteItems.map(wasteItem => {
-          return { id: wasteItem.id, userName: wasteItem.userName, description: wasteItem.description, duration: wasteItem.duration };
+          return { id: wasteItem.id, userName: wasteItem.userName, type: wasteItem.type, description: wasteItem.description, duration: wasteItem.duration };
         })
       );
     };
 
     dbContext.on("child_added", data => {
       wasteItems = wasteItems.concat([
-        { id: data.key, userName: data.val().userName, description: data.val().description, duration: parseFloat(data.val().duration), ref: data.ref }
+        { id: data.key, userName: data.val().userName, type: data.val().type, description: data.val().description, duration: parseFloat(data.val().duration), ref: data.ref }
       ]);
       callOnChanged();
     });
@@ -27,12 +27,13 @@ export default class WasteItemService {
       callOnChanged();
     });
 
-    this.addWasteItem = (description, duration) => {
-      if (!description || !duration) {
+    this.addWasteItem = (type, description, duration) => {
+      if (!type || !description || !duration) {
         return;
       }
       const newWasteItem = dbContext.push({
         userName: userName,
+        type: type,
         description: description,
         duration: parseFloat(duration).toFixed(1)
       });
