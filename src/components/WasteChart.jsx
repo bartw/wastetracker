@@ -1,5 +1,5 @@
 import React from "react";
-import { HorizontalBar } from "react-chartjs-2";
+import { Bar } from "react-chartjs-2";
 import _ from "lodash";
 
 export default class WasteChart extends React.Component {
@@ -23,7 +23,7 @@ export default class WasteChart extends React.Component {
       });
     };
 
-    this.calculateData = () => {
+    this.calculateChart = () => {
       const itemsByProperty = _(this.props.items).groupBy(
         this.state.chartProperty.key
       );
@@ -34,13 +34,26 @@ export default class WasteChart extends React.Component {
         .value();
 
       return {
-        labels: labels,
-        datasets: [
-          {
-            label: "Waste",
-            data: totalsPerGroup
+        data: {
+          labels: labels,
+          datasets: [
+            {
+              label: "Waste",
+              data: totalsPerGroup
+            }
+          ]
+        },
+        options: {
+          scales: {
+            yAxes: [
+              {
+                ticks: {
+                  beginAtZero: true
+                }
+              }
+            ]
           }
-        ]
+        }
       };
     };
   }
@@ -58,12 +71,14 @@ export default class WasteChart extends React.Component {
         {chartProperty.label}
       </label>
     );
+    const chart = this.calculateChart();
+
     return (
       <div>
         <fieldset>
           {chartPropertyRadioButtons}
         </fieldset>
-        <HorizontalBar data={this.calculateData} />
+        <Bar data={chart.data} options={chart.options} />
       </div>
     );
   }
