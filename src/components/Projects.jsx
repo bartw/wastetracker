@@ -1,5 +1,4 @@
 import React from "react";
-import { render } from "react-dom";
 import ProjectRow from "./ProjectRow";
 import Project from "./Project";
 import ProjectService from "../services/ProjectService";

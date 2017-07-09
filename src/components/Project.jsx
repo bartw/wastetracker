@@ -1,7 +1,7 @@
-import React from "react";
-import { render } from "react-dom";
-import WasteItemRow from "./WasteItemRow";
-import WasteItemService from "../services/WasteItemService";
+import React from 'react';
+import WasteItemRow from './WasteItemRow';
+import WasteChart from './WasteChart';
+import WasteItemService from '../services/WasteItemService';
 
 export default class Project extends React.Component {
   constructor(props) {
@@ -100,6 +100,7 @@ export default class Project extends React.Component {
         <button onClick={this.add} disabled={!this.state.newDescription || !this.state.newDuration}>
           Add waste item
         </button>
+        <WasteChart items={this.state.wasteItems} />
       </div>
     );
   }

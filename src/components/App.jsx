@@ -1,5 +1,4 @@
 import React from "react";
-import { render } from "react-dom";
 import Authentication from "./Authentication";
 import Projects from "./Projects";
 import AuthenticationService from "../services/AuthenticationService";

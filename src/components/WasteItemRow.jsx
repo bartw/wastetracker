@@ -1,5 +1,4 @@
 import React from "react";
-import { render } from "react-dom";
 
 export default function WasteItemRow({ userName, description, duration, onDelete }) {
   return (
